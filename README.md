@@ -182,8 +182,10 @@ Algoritma Karşılaştırma Raporu
 
 Aşağıdaki tablo, Random Forest ile optimize edilmiş XGBoost modelinin performans karşılaştırmasını göstermektedir:
 
-| ![Algoritma Karşılaştırma Raporu](images/algoritma_karsilastirma.png) |  |  |  |  |  |  |
-| :------------------------------------------------------------------------ | :- | -: | -: | -: | - | -: |
+ | Model | Karar Eşiği | Recall (Duyarlılık) | Precision (Kesinlik) | F1 Skoru | ROC-AUC |
+| :--- | :--- | ---: | ---: | ---: | ---: |
+| Random Forest | 0.15 | 0.35 | 0.18 | 0.24 | **0.78** |
+| **XGBoost** | **0.38** | **0.59** | 0.14 | 0.23 | 0.60 |
 
 **💡 İş Zekası İçgörüsü:** Random Forest daha yüksek genel doğruluğa (ROC-AUC) sahip olsa da, `0.38` karar eşikli XGBoost modeli tercih edilmiştir. Bunun sebebi, riskli müşterileri kaçırmamak adına bir miktar kesinlikten (precision) feragat ederek **Recall (yakalama) oranını %35'ten %59'a** çıkarmasıdır.
 
