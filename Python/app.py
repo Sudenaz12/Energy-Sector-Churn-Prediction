@@ -5,8 +5,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import os
 
-st.set_page_config(page_title="  Müşteri Churn Tahmin Paneli", layout="wide",page_icon="⚡",menu_items={
-        'About': "Bu uygulama  Müşteri Kayıp Analizi için geliştirilmiştir."
+st.set_page_config(page_title="   Müşteri Churn Tahmin Paneli", layout="wide",page_icon="⚡",menu_items={
+        'About': " Bu uygulama  Müşteri Kayıp Analizi için geliştirilmiştir."
     })
 
 @st.cache_resource
@@ -24,7 +24,7 @@ def kaynaklari_yukle():
 xgb_model, model_sutunlari = kaynaklari_yukle()
 
 st.title("⚡  Müşteri Churn Tahmin Sistemi")
-st.markdown("XGBoost sınıflandırma algoritması ve $0.38$ optimize karar eşiği ile müşteri ayrılma risk analizi.")
+st.markdown(" XGBoost sınıflandırma algoritması  ve  $0.38$ optimize karar eşiği ile müşteri ayrılma risk analizi.")
 st.markdown("---")
 
 tab1,tab2,tab3 =st.tabs([
@@ -145,11 +145,7 @@ with tab2:
     tablo=df_test[["Musteri_ID", "Satis_Kanali", "Kampanya_Tipi", "Net_Kar_Marji", "Ayrilma_Ihtimali_Gosterimi", "Karar"]]
     #styled_tablo = tablo.style.applymap(stil_uygula, subset=["Karar"]).format({"Net_Kar_Marji": "{:.2f} TL"})
     styled_tablo = tablo.style.map(stil_uygula, subset=["Karar"]).format({"Net_Kar_Marji": "{:.2f} TL"})
-    """
-    try:
-        styled_tablo = tablo.style.map(stil_uygula, subset=["Karar"]).format({"Net_Kar_Marji": "{:.2f} TL"})
-    except AttributeError:
-        styled_tablo = tablo.style.applymap(stil_uygula, subset=["Karar"]).format({"Net_Kar_Marji": "{:.2f} TL"})"""    
+    
     #st.dataframe(styled_tablo, use_container_width=True)
     st.table(styled_tablo)
 
