@@ -26,7 +26,7 @@ Proje; **SQL Server veri mühendisliği**, **EDA**, **iteratif özellik mühendi
 | Canlı Veri Erişimi       | SQLAlchemy                                                       |
 | Skorlama                   | `predict_proba()`                                              |
 | Karar Eşiği              | `0.38`                                                         |
-| Streamlit Canlı Uygulama | https://energy-sector-churn-prediction-proje-staj.streamlit.app` |
+| Streamlit Canlı Uygulama | https://energy-sector-churn-prediction-proje-staj.streamlit.app/ |
 
 ---
 
