@@ -252,8 +252,7 @@ else:
 
 Model yalnızca tahmin üretmekle bırakılmayıp, karar mekanizmasının hangi özelliklerden etkilendiği de incelendi.
 
-
- Feature Importance  ve  Confusion Matrix
+ 
 
 |         Özellik Önemi (Feature Importance)         |    Karışıklık Matrisi (Confusion Matrix)    |
 | :--------------------------------------------------: | :----------------------------------------------: |
