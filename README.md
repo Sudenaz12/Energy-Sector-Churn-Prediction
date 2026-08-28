@@ -10,21 +10,21 @@ Proje; **SQL Server veri mühendisliği**, **EDA**, **iteratif özellik mühendi
 
 ## 📌 Proje Özeti
 
-| Alan | Kullanılan Teknoloji / Yaklaşım |
-|---|---|
-| Veritabanı | SQL Server |
-| Veri İşleme | SQL, CTE, CASE WHEN |
-| Veri Analizi | Python, Pandas |
-| Görselleştirme | Matplotlib, Pandas Styler |
-| Makine Öğrenmesi | XGBoost Classifier |
-| Model Benchmarking | Random Forest → XGBoost |
-| Özellik Mühendisliği | Türetilmiş davranışsal ve finansal özellikler |
-| Model Açıklanabilirliği | XGBoost Feature Importance |
-| Model Kayıtları | Pickle (`.pkl`) |
-| Canlı Veri Erişimi | SQLAlchemy |
-| Skorlama | `predict_proba()` |
-| Karar Eşiği | `0.38` |
-| Planlanan Arayüz | Streamlit |
+| Alan                       | Kullanılan Teknoloji / Yaklaşım                 |
+| -------------------------- | -------------------------------------------------- |
+| Veritabanı                | SQL Server                                         |
+| Veri İşleme              | SQL, CTE, CASE WHEN                                |
+| Veri Analizi               | Python, Pandas                                     |
+| Görselleştirme           | Matplotlib, Pandas Styler                          |
+| Makine Öğrenmesi         | XGBoost Classifier                                 |
+| Model Benchmarking         | Random Forest → XGBoost                           |
+| Özellik Mühendisliği    | Türetilmiş davranışsal ve finansal özellikler |
+| Model Açıklanabilirliği | XGBoost Feature Importance                         |
+| Model Kayıtları          | Pickle (`.pkl`)                                  |
+| Canlı Veri Erişimi       | SQLAlchemy                                         |
+| Skorlama                   | `predict_proba()`                                |
+| Karar Eşiği              | `0.38`                                           |
+| Planlanan Arayüz          | Streamlit                                          |
 
 ---
 
@@ -75,16 +75,19 @@ Amaç, Python tarafına mümkün olduğunca **modellemeye hazır ve anlamlandır
 ### Oluşturulan Segmentler
 
 **İndirim Segmenti**
+
 - İndirim almayan
 - Standart indirim
 - Yüksek indirim
 
 **Kapasite Segmenti**
+
 - Atıl kapasite
 - Dengeli kullanım
 - Yüksek kapasite
 
 **Müşteri Profil Segmenti**
+
 - Sadece elektrik
 - Doğalgaz + elektrik
 
@@ -144,11 +147,11 @@ Başlangıçtaki özellikler değerlendirilerek Recall değerini düşüren gür
 
 ### Oluşturulan Özellikler
 
-| Özellik | Açıklama |
-|---|---|
-| `Sozlesme_Suresi_Gun` | Sözleşme başlangıç ve bitiş tarihleri arasındaki gün sayısı |
-| `Birim_Basina_kar` | Net kâr marjının toplam enerji tüketimine oranı |
-| `Tahmini_sapmasi` | Gerçekleşen tüketimin tahmini tüketime oranı |
+| Özellik                   | Açıklama                                                                  |
+| -------------------------- | --------------------------------------------------------------------------- |
+| `Sozlesme_Suresi_Gun`    | Sözleşme başlangıç ve bitiş tarihleri arasındaki gün sayısı       |
+| `Birim_Basina_kar`       | Net kâr marjının toplam enerji tüketimine oranı                        |
+| `Tahmini_sapmasi`        | Gerçekleşen tüketimin tahmini tüketime oranı                           |
 | `Fiyat_Dalgalanma_Orani` | Müşterinin fiyat değişimlerine karşı hassasiyetini temsil eden metrik |
 
 ### Kategorik Değişkenlerin Dönüştürülmesi
@@ -175,6 +178,15 @@ model_sutunlari.pkl
 
 Churn problemi bir **sınıf dengesizliği (class imbalance)** problemi içerdiğinden, model seçiminde özellikle `churn=1` sınıfını yakalama başarısına odaklanıldı.
 
+Algoritma Karşılaştırma Raporu
+
+Aşağıdaki tablo, Random Forest ile optimize edilmiş XGBoost modelinin performans karşılaştırmasını göstermektedir:
+
+| ![Algoritma Karşılaştırma Raporu](images/algoritma_karsilastirma.png) |  |  |  |  |  |  |
+| :------------------------------------------------------------------------ | :- | -: | -: | -: | - | -: |
+
+**💡 İş Zekası İçgörüsü:** Random Forest daha yüksek genel doğruluğa (ROC-AUC) sahip olsa da, `0.38` karar eşikli XGBoost modeli tercih edilmiştir. Bunun sebebi, riskli müşterileri kaçırmamak adına bir miktar kesinlikten (precision) feragat ederek **Recall (yakalama) oranını %35'ten %59'a** çıkarmasıdır.
+
 ### Model Geliştirme Süreci
 
 ```text
@@ -192,7 +204,7 @@ XGBoost Classifier
 Veri:
 
 ```text
-%80 → Eğitim
+%80 → Train
 %20 → Test
 ```
 
@@ -239,6 +251,13 @@ else:
 # 🧪 6. Model Açıklanabilirliği ve Stres Testleri
 
 Model yalnızca tahmin üretmekle bırakılmayıp, karar mekanizmasının hangi özelliklerden etkilendiği de incelendi.
+
+
+ Feature Importance  ve  Confusion Matrix
+
+|         Özellik Önemi (Feature Importance)         |    Karışıklık Matrisi (Confusion Matrix)    |
+| :--------------------------------------------------: | :----------------------------------------------: |
+| ![Feature Importance](images/feature_importance.png) | ![Confusion Matrix](images/confusion_matrix.png) |
 
 ### Feature Importance
 
@@ -322,18 +341,18 @@ Model, SQL Server'dan veri çekerek otomatik şekilde skor üreten bağımsız P
 
 SQL Server'a eklenen yeni müşteri kayıtları üzerinden modelin canlı veri akışı test edildi.
 
-| Müşteri | Net Kâr Marjı | Churn Olasılığı | Model Kararı |
-|---|---:|---:|---|
-| `NEW_CLIENT_001` | 1800.0 | %7.94 | 🟢 KALACAK |
-| `NEW_CLIENT_002` | 650.0 | %83.87 | 🔴 GİDECEK |
-| `NEW_CLIENT_003` | 3500.0 | %18.92 | 🟢 KALACAK |
-| `NEW_CLIENT_004` | 1200.0 | %88.17 | 🔴 GİDECEK |
-| `TEST_9901` | 5.2 | %13.78 | 🟢 KALACAK |
-| `TEST_9902` | 45.5 | %20.72 | 🟢 KALACAK |
-| `TEST_9903` | 25.1 | %7.04 | 🟢 KALACAK |
-| `TEST_9904` | 15.1 | %3.54 | 🟢 KALACAK |
-| `TEST_9905` | 520.0 | %1.45 | 🟢 KALACAK |
-| `TEST_9906` | 31000.0 | %0.78 | 🟢 KALACAK |
+| Müşteri          | Net Kâr Marjı | Churn Olasılığı | Model Kararı |
+| ------------------ | --------------: | ------------------: | ------------- |
+| `NEW_CLIENT_001` |          1800.0 |               %7.94 | 🟢 KALACAK    |
+| `NEW_CLIENT_002` |           650.0 |              %83.87 | 🔴 GİDECEK   |
+| `NEW_CLIENT_003` |          3500.0 |              %18.92 | 🟢 KALACAK    |
+| `NEW_CLIENT_004` |          1200.0 |              %88.17 | 🔴 GİDECEK   |
+| `TEST_9901`      |             5.2 |              %13.78 | 🟢 KALACAK    |
+| `TEST_9902`      |            45.5 |              %20.72 | 🟢 KALACAK    |
+| `TEST_9903`      |            25.1 |               %7.04 | 🟢 KALACAK    |
+| `TEST_9904`      |            15.1 |               %3.54 | 🟢 KALACAK    |
+| `TEST_9905`      |           520.0 |               %1.45 | 🟢 KALACAK    |
+| `TEST_9906`      |         31000.0 |               %0.78 | 🟢 KALACAK    |
 
 ---
 
@@ -390,19 +409,19 @@ Planned
 
 # 🗺️ Roadmap
 
-- [x] SQL Server veri tabanı mimarisi
-- [x] Analitik SQL sorguları
-- [x] Merkezi `vw_Final_Churn_Analizi` görünümü
-- [x] EDA ve iş içgörülerinin çıkarılması
-- [x] İteratif Feature Engineering
-- [x] Random Forest benchmark
-- [x] XGBoost model geliştirme
-- [x] Threshold Optimization
-- [x] Model Feature Importance analizi
-- [x] Edge-Case / Stress Testing
-- [x] Python ETL / canlı skorlama
-- [x] Yeni müşteri testleri
-- [x] İş değeri analizi
+- [X] SQL Server veri tabanı mimarisi
+- [X] Analitik SQL sorguları
+- [X] Merkezi `vw_Final_Churn_Analizi` görünümü
+- [X] EDA ve iş içgörülerinin çıkarılması
+- [X] İteratif Feature Engineering
+- [X] Random Forest benchmark
+- [X] XGBoost model geliştirme
+- [X] Threshold Optimization
+- [X] Model Feature Importance analizi
+- [X] Edge-Case / Stress Testing
+- [X] Python ETL / canlı skorlama
+- [X] Yeni müşteri testleri
+- [X] İş değeri analizi
 - [ ] **Streamlit interaktif karar destek dashboard'u**
 
 ---
