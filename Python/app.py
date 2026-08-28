@@ -5,7 +5,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import os
 
-st.set_page_config(page_title=" İGDAŞ Müşteri Churn Tahmin Paneli", layout="wide",page_icon="⚡",menu_items={
+st.set_page_config(page_title="  Müşteri Churn Tahmin Paneli", layout="wide",page_icon="⚡",menu_items={
         'About': "Bu uygulama  Müşteri Kayıp Analizi için geliştirilmiştir."
     })
 
