@@ -32,22 +32,6 @@ Proje; **SQL Server veri mühendisliği**, **EDA**, **iteratif özellik mühendi
 
 =======
 
-| Alan                       | Kullanılan Teknoloji / Yaklaşım                                                                                         |
-| -------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
-| Veritabanı                | SQL Server                                                                                                                 |
-| Veri İşleme              | SQL, CTE, CASE WHEN                                                                                                        |
-| Veri Analizi               | Python, Pandas                                                                                                             |
-| Görselleştirme           | Matplotlib, Pandas Styler                                                                                                  |
-| Makine Öğrenmesi         | XGBoost Classifier                                                                                                         |
-| Model Benchmarking         | Random Forest → XGBoost                                                                                                   |
-| Özellik Mühendisliği    | Türetilmiş davranışsal ve finansal özellikler                                                                         |
-| Model Açıklanabilirliği | XGBoost Feature Importance                                                                                                 |
-| Model Kayıtları          | Pickle (`.pkl`)                                                                                                          |
-| Canlı Veri Erişimi       | SQLAlchemy                                                                                                                 |
-| Skorlama                   | `predict_proba()`                                                                                                        |
-| Karar Eşiği              | `0.38`                                                                                                                   |
-| Streamlit Canlı Uygulama | [energy-sector-churn-prediction-proje-staj.streamlit.app](https://energy-sector-churn-prediction-proje-staj.streamlit.app/) |
-
 # 🏗️ 1. SQL Server Veri Mühendisliği ve Analitik Mimari
 
 Modelleme öncesindeki veri hazırlama ve segmentasyon süreçleri SQL Server üzerinde gerçekleştirilmiştir.
