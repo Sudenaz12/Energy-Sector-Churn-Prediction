@@ -143,13 +143,13 @@ with tab2:
         return ""
 
     tablo=df_test[["Musteri_ID", "Satis_Kanali", "Kampanya_Tipi", "Net_Kar_Marji", "Ayrilma_Ihtimali_Gosterimi", "Karar"]]
-    styled_tablo = tablo.style.applymap(stil_uygula, subset=["Karar"]).format({"Net_Kar_Marji": "{:.2f} TL"})
-
+    #styled_tablo = tablo.style.applymap(stil_uygula, subset=["Karar"]).format({"Net_Kar_Marji": "{:.2f} TL"})
+    styled_tablo = tablo.style.map(stil_uygula, subset=["Karar"]).format({"Net_Kar_Marji": "{:.2f} TL"})
+    """
     try:
         styled_tablo = tablo.style.map(stil_uygula, subset=["Karar"]).format({"Net_Kar_Marji": "{:.2f} TL"})
     except AttributeError:
-        styled_tablo = tablo.style.applymap(stil_uygula, subset=["Karar"]).format({"Net_Kar_Marji": "{:.2f} TL"})
-    
+        styled_tablo = tablo.style.applymap(stil_uygula, subset=["Karar"]).format({"Net_Kar_Marji": "{:.2f} TL"})"""    
     #st.dataframe(styled_tablo, use_container_width=True)
     st.table(styled_tablo)
 
