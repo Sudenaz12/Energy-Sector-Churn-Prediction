@@ -3,6 +3,7 @@ import pandas as pd
 import joblib
 import numpy as np
 import matplotlib.pyplot as plt
+import os
 
 st.set_page_config(page_title=" İGDAŞ Müşteri Churn Tahmin Paneli", layout="wide",page_icon="⚡",menu_items={
         'About': "Bu uygulama  Müşteri Kayıp Analizi için geliştirilmiştir."
@@ -10,13 +11,19 @@ st.set_page_config(page_title=" İGDAŞ Müşteri Churn Tahmin Paneli", layout="
 
 @st.cache_resource
 def kaynaklari_yukle():
-    model = joblib.load("xgb_churn_model.pkl")
-    sutunlar = joblib.load("model_sutunlari.pkl")
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+
+    # Bir üst klasöre ('..') çıkıp 'models' klasörünün içindeki dosyalara ulaşır
+    model_yolu = os.path.join(base_dir, "..", "models", "xgb_churn_model.pkl")
+    sutun_yolu = os.path.join(base_dir, "..", "models", "model_sutunlari.pkl")
+
+    model = joblib.load(model_yolu)
+    sutunlar = joblib.load(sutun_yolu)
     return model, sutunlar
 
 xgb_model, model_sutunlari = kaynaklari_yukle()
 
-st.title("⚡ İGDAŞ Müşteri Churn Tahmin Sistemi")
+st.title("⚡  Müşteri Churn Tahmin Sistemi")
 st.markdown("XGBoost sınıflandırma algoritması ve $0.38$ optimize karar eşiği ile müşteri ayrılma risk analizi.")
 st.markdown("---")
 
@@ -27,8 +34,9 @@ tab1,tab2,tab3 =st.tabs([
 ])
 
 with tab1 :
-     st.sidebar.header("📊 Tüketim & Finansal Parametreler")
 
+     st.sidebar.header("📊 Tüketim & Finansal Parametreler")
+ 
      net_kar = st.sidebar.number_input("Net Kar Marji (TL)" ,min_value= -1000.0,max_value=100000.0 ,step=100.0 , value=1800.0)
      elektrik_tüketim=st.sidebar.number_input("Elektrik Tüketimi 12 Ay" ,min_value=0.0,max_value =10000000.0,step =1000.0 ,value= 35000.0)
      sozlesme_gun= st.sidebar.number_input("Söleşme Süresi Gün" ,min_value=1 ,max_value=5000,step=30,value=1460 )
@@ -38,11 +46,10 @@ with tab1 :
      abone_gucu=st.sidebar.number_input("Abone Gücü Max KW" ,min_value=0.0 ,max_value=50000.0,step =10.0,value=132.0)
      tahmini_indirim=st.sidebar.selectbox("Tahmini Enerji İndirimi ", [0,300])
      dogalgaz_abonesimi=st.sidebar.selectbox("Doğalgaz Abone Durumu" ,[0,1])
-
-
+ 
      st.sidebar.markdown("---")
      st.sidebar.header("🏷️ Segmentasyon ve Kategoriler")
-
+ 
      satis_kanali=st.sidebar.selectbox(" Satış Kanalı",["Kanal A","Kanal B" ,"Kanal C","Kanal D"])
      kampanya_tipi=st.sidebar.selectbox("kampanya Tipi",["Kampanya 1","Kampanya 2","Diger Kampanya"])
      indirim_segmenti=st.sidebar.selectbox("İndirim Segmenti" ,[ "1-Hiç İndirim Almayanlar","2-Standart İndirim Alanlar","3-Yüksek İndirim Alanlar"])
@@ -54,9 +61,11 @@ with tab1 :
      birim_basina_kar = net_kar / (toplam_tuketim + 1e-5)
      tahmin_sapmasi = toplam_tuketim / (tahmini_tuketim + 1e-5)
      fiyat_dalgalanma_orani = 0.15
-     
+
      if st.button("🔍 Müşteri Risk Durumunu Hesapla",use_container_width=True):
+
     # Girdi Verisini Sözlük Olarak Hazırlama
+
        input_data = {
         "Elektrik_Tuketimi_12Ay": elektrik_tüketim,
         "Gaz_Tuketimi_12Ay": gaz_tuketim,
@@ -75,40 +84,36 @@ with tab1 :
         "Indirim_Segmenti": indirim_segmenti,
         "Musteri_Kapasite_Segmenti": kapasite_segmenti,
         "Musteri_Profil_Segmenti": profil_segmenti
-    }
-
+      }
+ 
      df_input=pd.DataFrame(["input_data"])
      df_encoded=pd.get_dummies(df_input)
      model_girdisi=df_encoded.reindex(columns= model_sutunlari,fill_value=0)
-
      churn_prob=xgb_model.predict_proba(model_girdisi)[0][1]
      optimum_esik=0.38
 
      st.markdown("---")
      st.subheader("📋 Model Analiz ve Karar Raporu")
-
+  
      col1, col2, col3 = st.columns(3)
      fark = (churn_prob - optimum_esik) * 100
+
      with col1:
-          st.metric(label="Ayrılma (Churn) İhtimali", value=f"%{churn_prob * 100:.2f}",delta=f"{fark:+.2f}% Eşik Farkı",
-          delta_color="inverse")
-        
+          st.metric(label="Ayrılma (Churn) İhtimali", value=f"%{churn_prob * 100:.2f}",delta=f"{fark:+.2f}% Eşik Farkı",delta_color="inverse")
+ 
      with col2:
           st.metric(label="Optimum Karar Eşiği", value=f"{optimum_esik}")
-        
+
      with col3:
           if churn_prob >= optimum_esik:
               st.error(" MODEL KARARI: GİDECEK (Riskli)")
           else:
               st.success(" MODEL KARARI: KALACAK (Sadık)")
-
-
-# Bilgilendirici İpucu
+     # Bilgilendirici İpucu
      if churn_prob >= optimum_esik:
-        st.warning("⚠️ **Aksiyon Önerisi:** Müşterinin ayrılma riski yüksek. Özel kampanya veya indirim tanımlanması önerilir.")
+       st.warning("⚠️ Aksiyon Önerisi: Müşterinin ayrılma riski yüksek. Özel kampanya veya indirim tanımlanması önerilir.")
      else:
-        st.info("ℹ️ **Müşteri Durumu:** Müşteri portföyde kalma eğiliminde. Standart tarife akışı sürdürülebilir.")
-
+       st.info("ℹ️ Müşteri Durumu: Müşteri portföyde kalma eğiliminde. Standart tarife akışı sürdürülebilir.")
 
 with tab2:
     st.subheader("📑 SQL Canlı Test Verisi Skorlama Tablosu")
